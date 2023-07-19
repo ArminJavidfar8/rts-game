@@ -9,6 +9,12 @@ namespace Common
         public static class LayerNames
         {
             public const string GROUND = "Ground";
+            public const string UNIT = "Unit";
+        }
+        public static class Tags
+        {
+            public const string GROUND = "Ground";
+            public const string UNIT = "Unit";
         }
     }
 }

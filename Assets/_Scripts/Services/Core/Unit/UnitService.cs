@@ -1,3 +1,4 @@
+using Data.Unit;
 using Extensions;
 using Managements.Unit;
 using Services.Abstraction;
@@ -14,39 +15,41 @@ namespace Services.Core.Unit
 {
     public class UnitService : IUnitService, IServiceUser
     {
-        private BaseUnit _selectedUnit;
+        private BaseUnitData _selectedUnitData;
 
         private IEventService _eventService;
         private IPoolService _poolService;
 
         public UnitService()
         {
-            InjectDependencies();
+            SetDependencies();
 
             _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundClicked, GroundClicked);
-            _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitSelected, UnitSelected);
+            _eventService.RegisterEvent<BaseUnitData>(EventTypes.OnUnitSelected, UnitSelected);
         }
 
-        public void InjectDependencies()
+        public void SetDependencies()
         {
             _eventService = EventService.Instance;
             _poolService = PoolService.Instance;
         }
 
-        public void SpawUnit(BaseUnit unit, Vector3 position)
+        private void GroundClicked(Vector3 position)
+        {
+            if (_selectedUnitData == null) return;
+            SpawUnit(_selectedUnitData, position);
+        }
+
+        public void SpawUnit(BaseUnitData unit, Vector3 position)
         {
             GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
             spawnedUnit.transform.position = position;
+            spawnedUnit.GetComponent<BaseUnit>().Initialize(unit);
         }
 
-        private void GroundClicked(Vector3 position)
+        private void UnitSelected(BaseUnitData selectedUnitData)
         {
-            SpawUnit(_selectedUnit, position);
-        }
-
-        private void UnitSelected(BaseUnit selectedUnit)
-        {
-            _selectedUnit = selectedUnit;
+            _selectedUnitData = selectedUnitData;
         }
 
     }

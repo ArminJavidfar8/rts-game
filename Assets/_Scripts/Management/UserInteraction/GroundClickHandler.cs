@@ -1,5 +1,6 @@
 using Common;
 using Extensions;
+using Managements.Unit;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Core.EventSystem;
@@ -14,7 +15,6 @@ namespace Managements.UserInteraction
     {
         private Camera _mainCamera;
         private int _rayDistance;
-        private string _groundLayerName;
 
         private IEventService _eventSystem;
 
@@ -22,12 +22,11 @@ namespace Managements.UserInteraction
         {
             _mainCamera = Camera.main;
             _rayDistance = 200;
-            _groundLayerName = Constants.LayerNames.GROUND;
 
-            InjectDependencies();
+            SetDependencies();
         }
 
-        public void InjectDependencies()
+        public void SetDependencies()
         {
             _eventSystem = EventService.Instance;
         }
@@ -43,10 +42,18 @@ namespace Managements.UserInteraction
         private void GetClickPosition()
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND), QueryTriggerInteraction.Ignore);
-            if (hit.collider != null)
+            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT), QueryTriggerInteraction.Collide);
+            Collider hitCollider = hit.collider;
+            if (hitCollider != null)
             {
-                _eventSystem.BroadcastEvent(EventTypes.OnGroundClicked, hit.point);
+                if (hitCollider.CompareTag(Constants.Tags.UNIT))
+                {
+                    _eventSystem.BroadcastEvent(EventTypes.OnUnitClicked, hitCollider.GetComponent<BaseUnit>());
+                }
+                else if (hitCollider.CompareTag(Constants.Tags.GROUND))
+                {
+                    _eventSystem.BroadcastEvent(EventTypes.OnGroundClicked, hit.point);
+                }
             }
         }
     }

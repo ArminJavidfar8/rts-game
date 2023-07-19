@@ -6,6 +6,6 @@ namespace Services.Abstraction
 {
     public interface IServiceUser
     {
-        void InjectDependencies();
+        void SetDependencies();
     }
 }

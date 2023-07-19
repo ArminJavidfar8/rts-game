@@ -49,7 +49,7 @@ namespace Services.Core.PoolSystem
         {
             foreach (GameObject gameObject in _poolList)
             {
-                if (gameObject.name == name && gameObject.activeSelf == false)
+                if (gameObject.name.StartsWith(name) && gameObject.activeSelf == false)
                 {
                     gameObject.SetActive(true);
                     gameObject.GetComponent<IPoolable>().OnGetFromPool();

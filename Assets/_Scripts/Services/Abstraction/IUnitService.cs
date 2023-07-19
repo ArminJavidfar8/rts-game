@@ -1,12 +1,10 @@
-using Managements.Unit;
-using System.Collections;
-using System.Collections.Generic;
+using Data.Unit;
 using UnityEngine;
 
 namespace Services.Abstraction
 {
     public interface IUnitService
     {
-        void SpawUnit(BaseUnit unit, Vector3 position);
+        void SpawUnit(BaseUnitData unitData, Vector3 position);
     }
 }

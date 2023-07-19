@@ -6,11 +6,13 @@ namespace Data.Unit
 {
     public class BaseUnitData : ScriptableObject
     {
+        [SerializeField] private string _name;
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _weaponDamage;
         [SerializeField] private float _speed;
         [SerializeField] private int _fireRange;
 
+        public string Name => _name;
         public float Speed => _speed;
         public int FireRange => _fireRange;
         public float MaxHealth => _maxHealth;
