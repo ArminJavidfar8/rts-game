@@ -12,6 +12,7 @@ namespace Data.Unit
         [SerializeField] private float _speed;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private int _fireRange;
+        [SerializeField] private float _fireRate;
 
         public string Name => _name;
         public float Speed => _speed;
@@ -19,5 +20,6 @@ namespace Data.Unit
         public int FireRange => _fireRange;
         public float MaxHealth => _maxHealth;
         public float WeaponDamage => _weaponDamage;
+        public float FireRate => _fireRate;
     }
 }

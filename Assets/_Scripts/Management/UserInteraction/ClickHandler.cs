@@ -4,9 +4,6 @@ using Managements.Unit;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.UserInteraction
@@ -33,26 +30,47 @@ namespace Managements.UserInteraction
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            bool leftClicked = Input.GetMouseButtonDown(0);
+            bool rightClicked = Input.GetMouseButtonDown(1);
+            if (leftClicked || rightClicked)
             {
-                GetClickPosition();
+                CheckClick(leftClicked, rightClicked);
             }
         }
 
-        private void GetClickPosition()
+        private void CheckClick(bool leftClicked, bool rightClicked)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT), QueryTriggerInteraction.Collide);
+            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT), QueryTriggerInteraction.Ignore);
             Collider hitCollider = hit.collider;
             if (hitCollider != null)
             {
-                if (hitCollider.CompareTag(Constants.Tags.UNIT))
+                if (hitCollider.CompareTag(Constants.Tags.PLAYER))
                 {
-                    _eventSystem.BroadcastEvent(EventTypes.OnUnitClicked, hitCollider.GetComponent<BaseUnit>());
+                    EventTypes eventType = EventTypes.OnPlayerUnitLeftClicked;
+                    if (rightClicked)
+                    {
+                        eventType = EventTypes.OnPlayerUnitRightClicked;
+                    }
+                    _eventSystem.BroadcastEvent(eventType, hitCollider.GetComponent<BaseUnit>());
+                }
+                else if (hitCollider.CompareTag(Constants.Tags.ENEMY))
+                {
+                    EventTypes eventType = EventTypes.OnEnemyUnitLeftClicked;
+                    if (rightClicked)
+                    {
+                        eventType = EventTypes.OnEnemyUnitRightClicked;
+                    }
+                    _eventSystem.BroadcastEvent(eventType, hitCollider.GetComponent<BaseUnit>());
                 }
                 else if (hitCollider.CompareTag(Constants.Tags.GROUND))
                 {
-                    _eventSystem.BroadcastEvent(EventTypes.OnGroundClicked, hit.point);
+                    EventTypes eventType = EventTypes.OnGroundLeftClicked;
+                    if (rightClicked)
+                    {
+                        eventType = EventTypes.OnGroundRightClicked;
+                    }
+                    _eventSystem.BroadcastEvent(eventType, hit.point);
                 }
             }
         }

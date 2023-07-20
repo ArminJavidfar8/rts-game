@@ -1,3 +1,4 @@
+using Common;
 using Data.Unit;
 using Extensions;
 using Managements.Unit;
@@ -15,42 +16,47 @@ namespace Services.Core.Unit
 {
     public class UnitService : IUnitService, IServiceUser
     {
-        private BaseUnitData _selectedUnitData;
-
-        private IEventService _eventService;
         private IPoolService _poolService;
+        private IEventService _eventService;
 
-        public UnitService()
+        #region Singleton
+        private static UnitService _instance;
+        public static UnitService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new UnitService();
+                }
+                return _instance;
+            }
+        }
+        #endregion
+
+        private UnitService()
         {
             SetDependencies();
-
-            _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundClicked, GroundClicked);
-            _eventService.RegisterEvent<BaseUnitData>(EventTypes.OnUnitButtonSelected, UnitSelected);
+            _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitDied, UnitDied);
         }
 
         public void SetDependencies()
         {
-            _eventService = EventService.Instance;
             _poolService = PoolService.Instance;
+            _eventService = EventService.Instance;
         }
 
-        private void GroundClicked(Vector3 position)
-        {
-            if (_selectedUnitData == null) return;
-            SpawUnit(_selectedUnitData, position);
-            _selectedUnitData = null;
-        }
-
-        public void SpawUnit(BaseUnitData unit, Vector3 position)
+        public void SpawUnit(BaseUnitData unit, Vector3 position, string tag)
         {
             GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
+            spawnedUnit.tag = tag;
             spawnedUnit.transform.position = position;
             spawnedUnit.GetComponent<BaseUnit>().SetData(unit);
         }
 
-        private void UnitSelected(BaseUnitData selectedUnitData)
+        private void UnitDied(BaseUnit unit)
         {
-            _selectedUnitData = selectedUnitData;
+            _poolService.ReleaseGameObject(unit.gameObject);
         }
 
     }

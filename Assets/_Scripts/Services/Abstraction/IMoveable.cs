@@ -4,7 +4,7 @@ namespace Services.Abstraction
 {
     public interface IMoveable
     {
-        void Move(Vector3 target, float speed);
-        void Rotate(Vector3 targetPosition, float speed);
+        void Move(Vector3 target);
+        void Rotate(Vector3 targetPosition);
     }
 }

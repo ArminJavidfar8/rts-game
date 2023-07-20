@@ -6,9 +6,18 @@ namespace Extensions
 {
     public enum EventTypes
     {
-        OnGroundClicked,
+        OnGroundLeftClicked,
+        OnGroundRightClicked,
+        OnPlayerUnitLeftClicked,
+        OnPlayerUnitRightClicked,
+        OnEnemyUnitLeftClicked,
+        OnEnemyUnitRightClicked,
         OnUnitButtonSelected,
-        OnUnitClicked
+        OnMousePanned,
+        OnDamagableHealthChanged,
+        OnPlayerUnitSelected,
+        OnPlayerUnitDeselected,
+        OnUnitDied,
     }
 
     public static class EventSystemExtension

@@ -10,7 +10,7 @@ namespace Services
     {
         public ServiceInitializer()
         {
-            _ = new UnitService();
+            _ = UnitService.Instance;
         }
     }
 }

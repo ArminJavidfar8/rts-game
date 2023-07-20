@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37434b2b037291f469f9de48f2837a59, type: 3}
-  m_Name: PoolData
+  m_Script: {fileID: 11500000, guid: 5f8b9e1528fd4e247899fc0be9c9443b, type: 3}
+  m_Name: SimpleSoldier
   m_EditorClassIdentifier: 
-  _prefabs:
-  - {fileID: 1177404125440770028, guid: 25e0cc8d38ace6d4eb948b9108e430a7, type: 3}
-  - {fileID: 4920121470886569357, guid: 01593fd9530fb904c9ddf50af2c5fb2b, type: 3}
+  _name: SimpleSoldier
+  _maxHealth: 50
+  _weaponDamage: 8
+  _speed: 10
+  _rotationSpeed: 300
+  _fireRange: 10
+  _fireRate: 1

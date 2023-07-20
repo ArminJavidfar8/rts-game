@@ -8,6 +8,7 @@ using Services.Core.EventSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI.Unit;
 using UnityEngine;
 
 namespace Managements.Unit
@@ -15,50 +16,38 @@ namespace Managements.Unit
     public abstract class BaseUnit : MonoBehaviour, IPoolable, IDamageable, IShooter, IMoveable, IServiceUser
     {
         [SerializeField] private GameObject _selectedIndicator;
+        [SerializeField] private UnitUI _unitUI;
 
         private BaseUnitData _unitData;
-        private float _maxHealth;
         private float _health;
-        private float _fireRange;
-        private float _speed;
-        private float _rotationSpeed;
-
-        private bool _isSelected;
         private Tween _moveTween;
         private Tween _rotateTween;
-        private IEventService _eventService;
+
+        protected IEventService _eventService;
 
         public string Name => name;
-        private float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
-        private float Health { get => _health; set => _health = value; }
-        private float FireRange { get => _fireRange; set => _fireRange = value; }
-        private float Speed { get => _speed; set => _speed = value; }
-        private float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
-        private bool IsSelected { get => _isSelected; set { _isSelected = value; _selectedIndicator.SetActive(value); } }
+        private float MaxHealth => _unitData.MaxHealth;
+        public float Health 
+        { 
+            get => _health; 
+            private set 
+            { 
+                _health = value;
+                _eventService.BroadcastEvent(EventTypes.OnDamagableHealthChanged, this, Health / MaxHealth);
+            } 
+        }
+        public float FireRate => _unitData.FireRate;
+        public float FireRange => _unitData.FireRange;
+        private float Speed => _unitData.Speed;
+        private float RotationSpeed => _unitData.RotationSpeed;
+        public float WeaponDamage => _unitData.WeaponDamage;
 
-        public void Initialize()
+        public bool IsDead => Health <= 0;
+
+        public void Initialize() 
         {
+            _unitUI.Initialize(this);
             SetDependencies();
-        }
-
-        public void SetData(BaseUnitData unitData)
-        {
-            _unitData = unitData;
-            ResetData();
-        }
-
-        public void OnGetFromPool()
-        {
-            _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitClicked, UnitClicked);
-            _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundClicked, GroundClicked);
-        }
-
-        public void OnReleaseToPool()
-        {
-            // ResetData should actually be in OnGetFromPool. But because in OnGetFromPool, SetData is not called yed, I put the reset code here.
-            ResetData();
-
-            _eventService.UnRegisterEvent<BaseUnit>(EventTypes.OnUnitClicked, UnitClicked);
         }
 
         public void SetDependencies()
@@ -66,9 +55,31 @@ namespace Managements.Unit
             _eventService = EventService.Instance;
         }
 
+        public virtual void SetData(BaseUnitData unitData)
+        {
+            _unitData = unitData;
+            ResetData();
+        }
+
+        public virtual void OnGetFromPool() 
+        {
+            _unitUI.OnGetFromPool();
+            _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitSelected, PlayerUnitSelected);
+            _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitDeselected, PlayerUnitDeselected);
+        }
+
+        public virtual void OnReleaseToPool()
+        {
+            _unitUI.OnReleaseToPool();
+            // ResetData should actually be in OnGetFromPool. But because in OnGetFromPool, SetData is not called yed, I put ResetData here.
+            ResetData();
+            _eventService.UnRegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitSelected, PlayerUnitSelected);
+            _eventService.UnRegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitDeselected, PlayerUnitDeselected);
+        }
+
         public virtual void Die()
         {
-            
+            _eventService.BroadcastEvent(EventTypes.OnUnitDied, this);
         }
 
         public virtual void TakeDamage(float damage)
@@ -80,9 +91,21 @@ namespace Managements.Unit
             }
         }
 
-        public void Shoot(IDamageable target, int damage)
+        public virtual void SetTargetByUser(BaseUnit target) {}
+
+        public IEnumerator ShootContinuously(BaseUnit target)
         {
-            target.TakeDamage(damage);
+            WaitForSeconds shootingWait = new WaitForSeconds(FireRate);
+            while (Health > 0 && !target.IsDead)
+            {
+                Shoot(target, target.transform.position, WeaponDamage);
+                yield return shootingWait;
+            }
+        }
+
+        public void Shoot(IDamageable target, Vector3 targetPosition, float damage)
+        {
+            transform.DOLookAt(targetPosition, RotationSpeed).SetSpeedBased(true).SetEase(Ease.Linear).OnComplete(() => target.TakeDamage(damage));
         }
 
         public IDamageable FindDamagable()
@@ -90,45 +113,44 @@ namespace Managements.Unit
             throw new System.NotImplementedException();
         }
 
-        public void Move(Vector3 target, float speed)
+        public void Move(Vector3 target)
         {
             if (_moveTween != null)
             {
                 _moveTween.Kill();
             }
-            _moveTween = transform.DOMove(target, speed).SetSpeedBased(true).SetEase(Ease.Linear);
+            _moveTween = transform.DOMove(target, Speed).SetSpeedBased(true).SetEase(Ease.Linear);
         }
 
-        public void Rotate(Vector3 targetPosition, float speed)
+        public void Rotate(Vector3 targetPosition)
         {
             if (_rotateTween != null)
             {
                 _rotateTween.Kill();
             }
-            _rotateTween = transform.DOLookAt(targetPosition, speed).SetSpeedBased(true).SetEase(Ease.Linear);
+            _rotateTween = transform.DOLookAt(targetPosition, RotationSpeed).SetSpeedBased(true).SetEase(Ease.Linear);
+        }
+
+        private void PlayerUnitSelected(BaseUnit selectedUnit)
+        {
+            if (selectedUnit == this)
+            {
+                _selectedIndicator.SetActive(true);
+            }
+        }
+
+        private void PlayerUnitDeselected(BaseUnit deselectedUnit)
+        {
+            if (deselectedUnit == this)
+            {
+                _selectedIndicator.SetActive(false);
+            }
         }
 
         private void ResetData()
         {
-            MaxHealth = Health = _unitData.MaxHealth;
-            FireRange = _unitData.FireRange;
-            Speed = _unitData.Speed;
-            RotationSpeed = _unitData.RotationSpeed;
-        }
-
-        private void UnitClicked(BaseUnit clickedUnit)
-        {
-            IsSelected = clickedUnit == this;
-        }
-
-        private void GroundClicked(Vector3 position)
-        {
-            if (IsSelected)
-            {
-                Rotate(position, RotationSpeed);
-                Move(position, Speed);
-            }
-            IsSelected = false;
+            _selectedIndicator.SetActive(false);
+            Health = MaxHealth;
         }
     }
 }
