@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Managements.UserInteraction
 {
-    public class GroundClickHandler : MonoBehaviour, IServiceUser
+    public class ClickHandler : MonoBehaviour, IServiceUser
     {
         private Camera _mainCamera;
         private int _rayDistance;

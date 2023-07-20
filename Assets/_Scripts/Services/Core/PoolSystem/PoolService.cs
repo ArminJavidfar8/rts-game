@@ -61,7 +61,9 @@ namespace Services.Core.PoolSystem
                 GameObject gameObject = GameObject.Instantiate(prefab);
                 _poolList.Add(gameObject);
                 gameObject.SetActive(true);
-                gameObject.GetComponent<IPoolable>().OnGetFromPool();
+                IPoolable poolable = gameObject.GetComponent<IPoolable>();
+                poolable.Initialize();
+                poolable.OnGetFromPool();
                 return gameObject;
             }
             throw new Exception($"No GameObject found with name {name} in pool");

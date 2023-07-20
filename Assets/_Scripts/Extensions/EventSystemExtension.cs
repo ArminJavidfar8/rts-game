@@ -7,7 +7,7 @@ namespace Extensions
     public enum EventTypes
     {
         OnGroundClicked,
-        OnUnitSelected,
+        OnUnitButtonSelected,
         OnUnitClicked
     }
 

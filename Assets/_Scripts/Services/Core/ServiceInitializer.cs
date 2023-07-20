@@ -1,10 +1,11 @@
 using Services.Core.Unit;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Services
 {
+    public interface IService
+    {
+
+    }
     public class ServiceInitializer
     {
         public ServiceInitializer()

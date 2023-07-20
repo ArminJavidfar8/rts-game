@@ -25,7 +25,7 @@ namespace Services.Core.Unit
             SetDependencies();
 
             _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundClicked, GroundClicked);
-            _eventService.RegisterEvent<BaseUnitData>(EventTypes.OnUnitSelected, UnitSelected);
+            _eventService.RegisterEvent<BaseUnitData>(EventTypes.OnUnitButtonSelected, UnitSelected);
         }
 
         public void SetDependencies()
@@ -38,13 +38,14 @@ namespace Services.Core.Unit
         {
             if (_selectedUnitData == null) return;
             SpawUnit(_selectedUnitData, position);
+            _selectedUnitData = null;
         }
 
         public void SpawUnit(BaseUnitData unit, Vector3 position)
         {
             GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
             spawnedUnit.transform.position = position;
-            spawnedUnit.GetComponent<BaseUnit>().Initialize(unit);
+            spawnedUnit.GetComponent<BaseUnit>().SetData(unit);
         }
 
         private void UnitSelected(BaseUnitData selectedUnitData)

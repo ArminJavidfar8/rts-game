@@ -6,16 +6,8 @@ using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class Soldier : BaseUnit, IPoolable
+    public class Soldier : BaseUnit
     {
-        public void OnGetFromPool()
-        {
-            
-        }
 
-        public void OnReleaseToPool()
-        {
-            
-        }
     }
 }

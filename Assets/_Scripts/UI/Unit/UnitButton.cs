@@ -38,7 +38,7 @@ namespace UI.Unit
 
         private void SelectButtonClicked()
         {
-            _eventService.BroadcastEvent(EventTypes.OnUnitSelected, _unitData);
+            _eventService.BroadcastEvent(EventTypes.OnUnitButtonSelected, _unitData);
         }
     }
 }
