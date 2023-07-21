@@ -13,12 +13,14 @@ namespace Managements.Cammera
     public class CameraManager : MonoBehaviour, IServiceUser
     {
         [SerializeField] private float _panSpeed;
+        [SerializeField] private float _zoomSpeed;
         private Vector2 _panValue;
         private IEventService _eventSystem;
         private void Start()
         {
             SetDependencies();
             _eventSystem.RegisterEvent<Vector2>(EventTypes.OnMousePanned, MousePanned);
+            _eventSystem.RegisterEvent<int>(EventTypes.OnMouseScrolled, MouseScrolled);
         }
 
         private void Update()
@@ -44,5 +46,9 @@ namespace Managements.Cammera
             _panValue = panValue;
         }
 
+        private void MouseScrolled(int scrollValue)
+        {
+            transform.position += transform.forward * scrollValue * _zoomSpeed * Time.deltaTime;
+        }
     }
 }

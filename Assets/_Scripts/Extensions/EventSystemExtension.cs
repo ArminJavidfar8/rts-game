@@ -12,12 +12,14 @@ namespace Extensions
         OnPlayerUnitRightClicked,
         OnEnemyUnitLeftClicked,
         OnEnemyUnitRightClicked,
-        OnUnitButtonSelected,
+        OnUnitButtonClicked,
         OnMousePanned,
         OnDamagableHealthChanged,
         OnPlayerUnitSelected,
         OnPlayerUnitDeselected,
         OnUnitDied,
+        OnMouseScrolled,
+        OnSkillButtonClicked,
     }
 
     public static class EventSystemExtension

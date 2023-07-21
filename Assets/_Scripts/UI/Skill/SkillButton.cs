@@ -1,27 +1,28 @@
-using Data.Unit;
+using Data.Skill;
 using Extensions;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Core.EventSystem;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Unit
+namespace UI.Skill
 {
-    public class UnitButton : MonoBehaviour, IServiceUser
+    public class SkillButton : MonoBehaviour, IServiceUser
     {
         [SerializeField] private Button _selectButton;
-        [SerializeField] private TMP_Text _unitNameLabel;
+        [SerializeField] private TMP_Text _skillNameLabel;
 
-        private BaseUnitData _unitData;
+        private BaseSkill _baseSkill;
         private IEventService _eventService;
-
-        public void Initialize(BaseUnitData unitData)
+        public void Initialize(BaseSkill baseSkill)
         {
             SetDependencies();
-            _unitData = unitData;
+            _baseSkill = baseSkill;
             SetUI();
         }
 
@@ -32,13 +33,13 @@ namespace UI.Unit
 
         private void SetUI()
         {
-            _unitNameLabel.text = _unitData.Name;
+            _skillNameLabel.text = _baseSkill.Name;
             _selectButton.onClick.AddListener(SelectButtonClicked);
         }
 
         private void SelectButtonClicked()
         {
-            _eventService.BroadcastEvent(EventTypes.OnUnitButtonClicked, _unitData);
+            _eventService.BroadcastEvent(EventTypes.OnSkillButtonClicked, _baseSkill);
         }
     }
 }

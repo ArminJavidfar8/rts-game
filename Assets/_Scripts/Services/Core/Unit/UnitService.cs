@@ -16,6 +16,7 @@ namespace Services.Core.Unit
 {
     public class UnitService : IUnitService, IServiceUser
     {
+        private List<BaseUnit> _activeUnits;
         private IPoolService _poolService;
         private IEventService _eventService;
 
@@ -37,6 +38,7 @@ namespace Services.Core.Unit
         private UnitService()
         {
             SetDependencies();
+            _activeUnits = new List<BaseUnit>();
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitDied, UnitDied);
         }
 
@@ -51,13 +53,40 @@ namespace Services.Core.Unit
             GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
             spawnedUnit.tag = tag;
             spawnedUnit.transform.position = position;
-            spawnedUnit.GetComponent<BaseUnit>().SetData(unit);
+            BaseUnit spawnedBaseUnit = spawnedUnit.GetComponent<BaseUnit>();
+            spawnedBaseUnit.SetData(unit);
+            _activeUnits.Add(spawnedBaseUnit);
         }
 
         private void UnitDied(BaseUnit unit)
         {
             _poolService.ReleaseGameObject(unit.gameObject);
+            _activeUnits.Remove(unit);
         }
 
+        public BaseUnit GetNearestTarget(BaseUnit source, int range, string targetTag)
+        {
+            foreach (BaseUnit target in _activeUnits)
+            {
+                if (target.tag == targetTag && Vector3.Distance(target.transform.position, source.transform.position) <= range);
+                {
+                    return target;
+                }
+            }
+            return null;
+        }
+
+        public List<BaseUnit> GetNearestTargets(BaseUnit source, int range, string targetTag)
+        {
+            List<BaseUnit> targets = new List<BaseUnit>();
+            foreach (BaseUnit target in _activeUnits)
+            {
+                if (target.tag == targetTag && Vector3.Distance(target.transform.position, source.transform.position) <= range) ;
+                {
+                    targets.Add(target);
+                }
+            }
+            return targets;
+        }
     }
 }

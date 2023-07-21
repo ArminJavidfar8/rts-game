@@ -1,3 +1,5 @@
+using Common;
+using Data.Skill;
 using Data.Unit;
 using DG.Tweening;
 using Extensions;
@@ -5,6 +7,7 @@ using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Abstraction.PoolSystem;
 using Services.Core.EventSystem;
+using Services.Core.Unit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +16,7 @@ using UnityEngine;
 
 namespace Managements.Unit
 {
-    public abstract class BaseUnit : MonoBehaviour, IPoolable, IDamageable, IShooter, IMoveable, IServiceUser
+    public abstract class BaseUnit : MonoBehaviour, IPoolable, IDamageable, IShooter, ITargetFinder, IServiceUser
     {
         [SerializeField] private GameObject _selectedIndicator;
         [SerializeField] private UnitUI _unitUI;
@@ -24,6 +27,7 @@ namespace Managements.Unit
         private Tween _rotateTween;
 
         protected IEventService _eventService;
+        protected IUnitService _unitService;
 
         public string Name => name;
         private float MaxHealth => _unitData.MaxHealth;
@@ -44,6 +48,8 @@ namespace Managements.Unit
 
         public bool IsDead => Health <= 0;
 
+        public IEnumerable<BaseSkill> Skills => _unitData.Skills;
+
         public void Initialize() 
         {
             _unitUI.Initialize(this);
@@ -53,6 +59,7 @@ namespace Managements.Unit
         public void SetDependencies()
         {
             _eventService = EventService.Instance;
+            _unitService = UnitService.Instance;
         }
 
         public virtual void SetData(BaseUnitData unitData)
@@ -61,7 +68,7 @@ namespace Managements.Unit
             ResetData();
         }
 
-        public virtual void OnGetFromPool() 
+        public virtual void OnGetFromPool()
         {
             _unitUI.OnGetFromPool();
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitSelected, PlayerUnitSelected);
@@ -91,26 +98,17 @@ namespace Managements.Unit
             }
         }
 
-        public virtual void SetTargetByUser(BaseUnit target) {}
+        public virtual void SetTargetByUser(BaseUnit target) { }
 
-        public IEnumerator ShootContinuously(BaseUnit target)
-        {
-            WaitForSeconds shootingWait = new WaitForSeconds(FireRate);
-            while (Health > 0 && !target.IsDead)
-            {
-                Shoot(target, target.transform.position, WeaponDamage);
-                yield return shootingWait;
-            }
-        }
+        public virtual void RemoveTargetByUser(BaseUnit target) { }
 
         public void Shoot(IDamageable target, Vector3 targetPosition, float damage)
         {
+            if (tag == Constants.Tags.ENEMY)
+            {
+                return;
+            }
             transform.DOLookAt(targetPosition, RotationSpeed).SetSpeedBased(true).SetEase(Ease.Linear).OnComplete(() => target.TakeDamage(damage));
-        }
-
-        public IDamageable FindDamagable()
-        {
-            throw new System.NotImplementedException();
         }
 
         public void Move(Vector3 target)
@@ -151,6 +149,18 @@ namespace Managements.Unit
         {
             _selectedIndicator.SetActive(false);
             Health = MaxHealth;
+        }
+
+        public BaseUnit GetNearestTarget(int range)
+        {
+            string targetTag = tag == Constants.Tags.PLAYER ? Constants.Tags.ENEMY : Constants.Tags.PLAYER;
+            return _unitService.GetNearestTarget(this, range, targetTag);
+        }
+
+        public List<BaseUnit> GetTargets(int range)
+        {
+            string targetTag = tag == Constants.Tags.PLAYER ? Constants.Tags.ENEMY : Constants.Tags.PLAYER;
+            return _unitService.GetNearestTargets(this, range, targetTag);
         }
     }
 }

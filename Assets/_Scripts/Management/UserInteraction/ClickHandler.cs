@@ -41,7 +41,7 @@ namespace Managements.UserInteraction
         private void CheckClick(bool leftClicked, bool rightClicked)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT), QueryTriggerInteraction.Ignore);
+            Physics.Raycast(ray, out RaycastHit hit, _rayDistance, LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT, Constants.LayerNames.UI), QueryTriggerInteraction.Ignore);
             Collider hitCollider = hit.collider;
             if (hitCollider != null)
             {

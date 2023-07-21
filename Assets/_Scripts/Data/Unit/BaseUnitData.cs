@@ -1,3 +1,4 @@
+using Data.Skill;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Data.Unit
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private int _fireRange;
         [SerializeField] private float _fireRate;
-
+        [SerializeField] private BaseSkill[] _skills;
         public string Name => _name;
         public float Speed => _speed;
         public float RotationSpeed => _rotationSpeed;
@@ -21,5 +22,6 @@ namespace Data.Unit
         public float MaxHealth => _maxHealth;
         public float WeaponDamage => _weaponDamage;
         public float FireRate => _fireRate;
+        public IEnumerable<BaseSkill> Skills => _skills;
     }
 }

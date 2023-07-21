@@ -10,6 +10,7 @@ namespace Common
         {
             public const string GROUND = "Ground";
             public const string UNIT = "Unit";
+            public const string UI = "UI";
         }
         public static class Tags
         {

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f8b9e1528fd4e247899fc0be9c9443b, type: 3}
-  m_Name: AutoFireSoldier
+  m_Name: AutoFireStaticWeapon
   m_EditorClassIdentifier: 
-  _name: AutoFireSoldier
+  _name: AutoFireStaticWeapon
   _maxHealth: 50
-  _weaponDamage: 7
+  _weaponDamage: 6
   _speed: 10
   _rotationSpeed: 300
-  _fireRange: 30
-  _fireRate: 1
+  _fireRange: 35
+  _fireRate: 0.7
   _skills:
   - {fileID: 11400000, guid: 5005c8edd0680814f9b925d7c54c0e1b, type: 2}
+  - {fileID: 11400000, guid: 968a9962aaf56454b853d0ff2d4d728c, type: 2}
