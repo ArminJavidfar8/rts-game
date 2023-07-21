@@ -73,6 +73,7 @@ namespace Managements.Unit
             _unitUI.OnGetFromPool();
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitSelected, PlayerUnitSelected);
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitDeselected, PlayerUnitDeselected);
+            _selectedIndicator.SetActive(false);
         }
 
         public virtual void OnReleaseToPool()

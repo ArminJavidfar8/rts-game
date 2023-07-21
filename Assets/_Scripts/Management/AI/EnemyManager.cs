@@ -35,6 +35,12 @@ namespace Managements.AI
         {
             BaseUnitData[] units = _resourceService.GetResource<UnitsCollection>("Collections/UnitsCollection").Units;
             int spawnRange = 50;
+            for (int i = 0; i < 5; i++)
+            {
+                _unitService.SpawUnit(units[i % units.Length], Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
+
+            }
+            yield break;
             while (true)
             {
                 _unitService.SpawUnit(units.GetRandomItem(), Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);

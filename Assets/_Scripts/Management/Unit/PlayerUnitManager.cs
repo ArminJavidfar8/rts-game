@@ -41,8 +41,13 @@ namespace Managements.Unit
 
         private void PlayerUnitLeftClicked(BaseUnit clickedUnit)
         {
+            if (_selectedPlayerUnit != null)
+            {
+                _eventService.BroadcastEvent(EventTypes.OnPlayerUnitDeselected, _selectedPlayerUnit);
+            }
             _selectedPlayerUnit = clickedUnit;
             _selectedSkill = null;
+            _selectedUnitData = null;
             _eventService.BroadcastEvent(EventTypes.OnPlayerUnitSelected, _selectedPlayerUnit);
         }
 
@@ -54,12 +59,16 @@ namespace Managements.Unit
                 {
                     _selectedPlayerUnit.RemoveTargetByUser(clickedUnit);
                     _selectedSkill.Execute(_selectedPlayerUnit, clickedUnit);
+                    _eventService.BroadcastEvent(EventTypes.OnPlayerUnitDeselected, _selectedPlayerUnit);
+                    _selectedSkill = null;
+                    _selectedPlayerUnit = null;
                 }
                 else
                 {
                     _selectedPlayerUnit.SetTargetByUser(clickedUnit);
                 }
             }
+            _selectedUnitData = null;
         }
 
         private void GroundLeftClicked(Vector3 position)
@@ -75,8 +84,14 @@ namespace Managements.Unit
             }
             else
             {
+                if (_selectedPlayerUnit != null)
+                {
+                    _eventService.BroadcastEvent(EventTypes.OnPlayerUnitDeselected, _selectedPlayerUnit);
+                    _selectedPlayerUnit = null;
+                }
                 _unitService.SpawUnit(_selectedUnitData, position, Constants.Tags.PLAYER);
                 _selectedUnitData = null;
+                _selectedSkill = null;
             }
         }
 
@@ -90,6 +105,7 @@ namespace Managements.Unit
             }
             _selectedPlayerUnit = null;
             _selectedSkill = null;
+            _selectedUnitData = null;
         }
 
         private void UnitButtonSelected(BaseUnitData selectedUnitData)
@@ -107,6 +123,10 @@ namespace Managements.Unit
             else
             {
                 skill.Execute(_selectedPlayerUnit);
+                _eventService.BroadcastEvent(EventTypes.OnPlayerUnitDeselected, _selectedPlayerUnit);
+                _selectedUnitData = null;
+                _selectedSkill = null;
+                _selectedPlayerUnit = null;
             }
         }
 

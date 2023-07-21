@@ -69,7 +69,6 @@ namespace Managements.UserInteraction
                 Collider hitCollider = hit.collider;
                 if (hitCollider != null)
                 {
-                    print(hitCollider.name);
                     if (hitCollider.CompareTag(Constants.Tags.PLAYER))
                     {
                         EventTypes eventType = EventTypes.OnPlayerUnitLeftClicked;

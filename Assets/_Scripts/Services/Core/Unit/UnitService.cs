@@ -66,14 +66,18 @@ namespace Services.Core.Unit
 
         public BaseUnit GetNearestTarget(BaseUnit source, int range, string targetTag)
         {
+            float nearestDistance = range;
+            BaseUnit nearestTarget = null;
             foreach (BaseUnit target in _activeUnits)
             {
-                if (target.tag == targetTag && Vector3.Distance(target.transform.position, source.transform.position) <= range);
+                float distance = Vector3.Distance(target.transform.position, source.transform.position);
+                if (target.tag == targetTag && distance <= nearestDistance)
                 {
-                    return target;
+                    nearestDistance = distance;
+                    nearestTarget = target;
                 }
             }
-            return null;
+            return nearestTarget;
         }
 
         public List<BaseUnit> GetNearestTargets(BaseUnit source, int range, string targetTag)
@@ -81,7 +85,7 @@ namespace Services.Core.Unit
             List<BaseUnit> targets = new List<BaseUnit>();
             foreach (BaseUnit target in _activeUnits)
             {
-                if (target.tag == targetTag && Vector3.Distance(target.transform.position, source.transform.position) <= range) ;
+                if (target.tag == targetTag && Vector3.Distance(target.transform.position, source.transform.position) <= range)
                 {
                     targets.Add(target);
                 }

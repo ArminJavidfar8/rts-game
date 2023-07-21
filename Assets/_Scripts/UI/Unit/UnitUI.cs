@@ -56,7 +56,7 @@ namespace UI.Unit
         {
             if (_damageable == damagable)
             {
-                gameObject.SetActive(true);
+                gameObject.SetActive(healthPercent != 1);
                 _healthbarFill.fillAmount = healthPercent;
             }
         }
