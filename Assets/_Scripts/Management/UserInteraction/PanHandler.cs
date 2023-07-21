@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Managements.UserInteraction
 {
@@ -53,8 +54,9 @@ namespace Managements.UserInteraction
 
         private void CheckMouseToPan()
         {
-            _mousePositionX = Input.mousePosition.x;
-            _mousePositionY = Input.mousePosition.y;
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            _mousePositionX = mousePosition.x;
+            _mousePositionY = mousePosition.y;
             Vector2 panValue = Vector2.zero;
             if (_mousePositionX > 0 && _mousePositionX < _leftSideThreshold)
             {

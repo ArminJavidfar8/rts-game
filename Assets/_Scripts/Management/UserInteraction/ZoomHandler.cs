@@ -2,14 +2,14 @@ using Extensions;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Core.EventSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Managements.UserInteraction
 {
     public class ZoomHandler : MonoBehaviour, IServiceUser
     {
+        [SerializeField] private InputAction _scrollAction;
         private IEventService _eventSystem;
         private int _threshold;
         private int _currentZoom;
@@ -20,7 +20,19 @@ namespace Managements.UserInteraction
             _threshold = 15;
         }
 
-        void Update()
+        private void OnEnable()
+        {
+            _scrollAction.Enable();
+            _scrollAction.performed += ScrollActionPerformed;
+        }
+
+        private void OnDisable()
+        {
+            _scrollAction.Disable();
+            _scrollAction.performed -= ScrollActionPerformed;
+        }
+
+        private void ScrollActionPerformed(InputAction.CallbackContext context)
         {
             CheckMouseToZoom();
         }
@@ -32,7 +44,7 @@ namespace Managements.UserInteraction
 
         private void CheckMouseToZoom()
         {
-            float scrollVaue = Input.GetAxis("Mouse ScrollWheel");
+            float scrollVaue = Mouse.current.scroll.ReadValue().y;
             int scroll = 0;
             if (scrollVaue > 0)
             {

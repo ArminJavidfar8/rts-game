@@ -14821,9 +14821,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f905d1d9930424a82bccd354a586e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layer:
-    serializedVersion: 2
-    m_Bits: 224
+  _rightClickAction:
+    m_Name: Right Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8e8d35b1-1a1d-4b0c-bde7-7d21bc148138
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f636a9ac-3b2b-4595-af70-427fce0a127c
+      m_Path: <Mouse>/rightButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Right Click
+      m_Flags: 0
+    m_Flags: 0
+  _leftClickAction:
+    m_Name: Left Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7353db20-0198-4f4a-8fbf-faba9787fa0b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 6f11c18f-578b-4565-9236-2c70c68b22b3
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Left Click
+      m_Flags: 0
+    m_Flags: 0
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -14952,6 +14983,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3c61be0f0446f4abdf883bac146b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scrollAction:
+    m_Name: Scroll
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c713e699-6ea8-4d9c-8dee-d001d8e22612
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 91a6bb91-38f2-4351-9651-0b3f1d6db910
+      m_Path: <Mouse>/scroll
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Scroll
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1001 &1690529060
 PrefabInstance:
   m_ObjectHideFlags: 0
