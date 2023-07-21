@@ -1,3 +1,4 @@
+using Services.Core.Score;
 using Services.Core.Unit;
 
 namespace Services
@@ -11,6 +12,7 @@ namespace Services
         public ServiceInitializer()
         {
             _ = UnitService.Instance;
+            _ = ScoreService.Instance;
         }
     }
 }

@@ -16,7 +16,8 @@ MonoBehaviour:
   _maxHealth: 200
   _weaponDamage: 20
   _speed: 5
-  _rotationSpeed: 100
+  _rotationSpeed: 50
   _fireRange: 80
+  _killingScore: 30
   _fireRate: 2
   _skills: []

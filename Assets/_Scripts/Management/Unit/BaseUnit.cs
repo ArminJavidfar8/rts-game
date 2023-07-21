@@ -41,15 +41,16 @@ namespace Managements.Unit
             } 
         }
         public float FireRate => _unitData.FireRate;
-        public float FireRange => _unitData.FireRange;
+        public int FireRange => _unitData.FireRange;
         private float Speed => _unitData.Speed;
         private float RotationSpeed => _unitData.RotationSpeed;
         public float WeaponDamage => _unitData.WeaponDamage;
-
+        public int KillingScore => _unitData.KillingScore;
+        public Type UnitType => _unitData.GetType();
         public bool IsDead => Health <= 0;
-
         public IEnumerable<BaseSkill> Skills => _unitData.Skills;
 
+        
         public void Initialize() 
         {
             _unitUI.Initialize(this);
@@ -105,10 +106,6 @@ namespace Managements.Unit
 
         public void Shoot(IDamageable target, Vector3 targetPosition, float damage)
         {
-            if (tag == Constants.Tags.ENEMY)
-            {
-                return;
-            }
             transform.DOLookAt(targetPosition, RotationSpeed).SetSpeedBased(true).SetEase(Ease.Linear).OnComplete(() => target.TakeDamage(damage));
         }
 

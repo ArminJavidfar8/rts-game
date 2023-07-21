@@ -1,6 +1,8 @@
+using Common;
 using Data.Unit;
 using Services.Abstraction;
 using Services.Core.ResourceSystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Unit
@@ -25,12 +27,11 @@ namespace UI.Unit
 
         private void SetUnitsList()
         {
-            BaseUnitData[] units = _resourceService.GetResource<UnitsCollection>("Collections/UnitsCollection").Units;
-            int length = units.Length;
-            for (int i = 0; i < length; i++)
+            IEnumerable<BaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
+            foreach (BaseUnitData unit in units)
             {
                 UnitButton unitButton = Instantiate(_unitButtonPrefab, transform);
-                unitButton.Initialize(units[i]);
+                unitButton.Initialize(unit);
             }
         }
     }

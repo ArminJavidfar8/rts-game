@@ -20,6 +20,8 @@ namespace Extensions
         OnUnitDied,
         OnMouseScrolled,
         OnSkillButtonClicked,
+        OnObjectiveValueUpdated,
+        OnScoreUpdated,
     }
 
     public static class EventSystemExtension

@@ -18,5 +18,10 @@ namespace Common
             public const string ENEMY = "Enemy";
             public const string PLAYER = "Player";
         }
+        public static class Paths
+        {
+            public const string UNITS_COLLECTION = "Collections/UnitsCollection";
+            public const string OBJECTIVES_COLLECTION = "Collections/ObjectivesCollection";
+        }
     }
 }

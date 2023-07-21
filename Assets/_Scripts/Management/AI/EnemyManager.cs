@@ -1,6 +1,7 @@
 using Common;
 using Data.Unit;
 using Extensions;
+using Managements.Unit;
 using Services.Abstraction;
 using Services.Core.ResourceSystem;
 using Services.Core.Unit;
@@ -15,12 +16,14 @@ namespace Managements.AI
     {
         private WaitForSeconds _spawnDelay;
 
+        private List<BaseUnit> _enemies;
         private IResourceService _resourceService;
         private IUnitService _unitService;
         
         private void Start()
         {
             SetDependencies();
+            _enemies = new List<BaseUnit>();
             _spawnDelay = new WaitForSeconds(5);
             StartCoroutine(GenerateEnemies());
         }
@@ -33,20 +36,19 @@ namespace Managements.AI
 
         private IEnumerator GenerateEnemies()
         {
-            BaseUnitData[] units = _resourceService.GetResource<UnitsCollection>("Collections/UnitsCollection").Units;
-            int spawnRange = 50;
-            for (int i = 0; i < 5; i++)
-            {
-                _unitService.SpawUnit(units[i % units.Length], Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
-
-            }
-            yield break;
+            IEnumerable<BaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
+            int spawnRange = 40;
             while (true)
             {
-                _unitService.SpawUnit(units.GetRandomItem(), Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
+                BaseUnit enemyUnit = _unitService.SpawUnit(units.GetRandomItem<BaseUnitData>(), Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
+                if (enemyUnit is SimpleSoldier)
+                {
+                    BaseUnitAI unitAI = enemyUnit.gameObject.AddComponent<SimpleSoldierAI>();
+                    unitAI.Initialize(enemyUnit);
+                }
+                _enemies.Add(enemyUnit);
                 yield return _spawnDelay;
             }
         }
-
     }
 }

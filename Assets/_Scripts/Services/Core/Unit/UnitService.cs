@@ -48,7 +48,7 @@ namespace Services.Core.Unit
             _eventService = EventService.Instance;
         }
 
-        public void SpawUnit(BaseUnitData unit, Vector3 position, string tag)
+        public BaseUnit SpawUnit(BaseUnitData unit, Vector3 position, string tag)
         {
             GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
             spawnedUnit.tag = tag;
@@ -56,6 +56,7 @@ namespace Services.Core.Unit
             BaseUnit spawnedBaseUnit = spawnedUnit.GetComponent<BaseUnit>();
             spawnedBaseUnit.SetData(unit);
             _activeUnits.Add(spawnedBaseUnit);
+            return spawnedBaseUnit;
         }
 
         private void UnitDied(BaseUnit unit)

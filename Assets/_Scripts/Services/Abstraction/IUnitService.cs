@@ -7,7 +7,7 @@ namespace Services.Abstraction
 {
     public interface IUnitService
     {
-        void SpawUnit(BaseUnitData unitData, Vector3 position, string tag);
+        BaseUnit SpawUnit(BaseUnitData unitData, Vector3 position, string tag);
         BaseUnit GetNearestTarget(BaseUnit source, int range, string targetTag);
         List<BaseUnit> GetNearestTargets(BaseUnit source, int range, string targetTag);
     }

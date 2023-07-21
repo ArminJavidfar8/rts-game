@@ -13,6 +13,7 @@ namespace Data.Unit
         [SerializeField] private float _speed;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private int _fireRange;
+        [SerializeField] private int _killingScore;
         [SerializeField] private float _fireRate;
         [SerializeField] private BaseSkill[] _skills;
         public string Name => _name;
@@ -22,6 +23,7 @@ namespace Data.Unit
         public float MaxHealth => _maxHealth;
         public float WeaponDamage => _weaponDamage;
         public float FireRate => _fireRate;
+        public int KillingScore => _killingScore;
         public IEnumerable<BaseSkill> Skills => _skills;
     }
 }

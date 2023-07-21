@@ -18,6 +18,7 @@ MonoBehaviour:
   _speed: 10
   _rotationSpeed: 300
   _fireRange: 30
+  _killingScore: 15
   _fireRate: 1
   _skills:
   - {fileID: 11400000, guid: 5005c8edd0680814f9b925d7c54c0e1b, type: 2}
