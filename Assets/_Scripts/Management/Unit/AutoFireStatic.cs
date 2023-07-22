@@ -1,20 +1,21 @@
 using Common;
 using Data.Unit;
 using Extensions;
+using Services.Abstraction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class AutoFireStaticWeapon : BaseUnit
+    public class AutoFireStatic : BaseUnit
     {
         [SerializeField] private RangeChecker _rangeChecker;
 
         private List<BaseUnit> _targets;
         private Coroutine _findTargetAndShootCoroutine;
 
-        public override void SetData(BaseUnitData unitData)
+        public override void SetData(IBaseUnitData unitData)
         {
             base.SetData(unitData);
             _rangeChecker.SetRadius(FireRange);

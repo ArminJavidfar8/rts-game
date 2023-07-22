@@ -15,7 +15,7 @@ namespace Managements.Unit
 {
     public class PlayerUnitManager : MonoBehaviour, IServiceUser
     {
-        private BaseUnitData _selectedUnitData;
+        private IBaseUnitData _selectedUnitData;
         private BaseUnit _selectedPlayerUnit;
         private BaseSkill _selectedSkill;
         private IEventService _eventService;
@@ -28,7 +28,7 @@ namespace Managements.Unit
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnEnemyUnitRightClicked, EnemyUnitRightClicked);
             _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundLeftClicked, GroundLeftClicked);
             _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundRightClicked, GroundRightClicked);
-            _eventService.RegisterEvent<BaseUnitData>(EventTypes.OnUnitButtonClicked, UnitButtonSelected);
+            _eventService.RegisterEvent<IBaseUnitData>(EventTypes.OnUnitButtonClicked, UnitButtonSelected);
             _eventService.RegisterEvent<BaseSkill>(EventTypes.OnSkillButtonClicked, SkillButtonClicked);
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitDied, UnitDied);
         }
@@ -108,7 +108,7 @@ namespace Managements.Unit
             _selectedUnitData = null;
         }
 
-        private void UnitButtonSelected(BaseUnitData selectedUnitData)
+        private void UnitButtonSelected(IBaseUnitData selectedUnitData)
         {
             _selectedUnitData = selectedUnitData;
         }

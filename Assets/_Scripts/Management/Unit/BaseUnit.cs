@@ -21,7 +21,7 @@ namespace Managements.Unit
         [SerializeField] private GameObject _selectedIndicator;
         [SerializeField] private UnitUI _unitUI;
 
-        private BaseUnitData _unitData;
+        private IBaseUnitData _unitData;
         private float _health;
         private Tween _moveTween;
         private Tween _rotateTween;
@@ -63,7 +63,7 @@ namespace Managements.Unit
             _unitService = UnitService.Instance;
         }
 
-        public virtual void SetData(BaseUnitData unitData)
+        public virtual void SetData(IBaseUnitData unitData)
         {
             _unitData = unitData;
             ResetData();

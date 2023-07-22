@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class SimpleSoldier : BaseUnit, IMoveable
+    public class SimpleUnit : BaseUnit, IMoveable
     {
         private Coroutine _continuousShootCoroutine;
         public override void SetTargetByUser(BaseUnit target)

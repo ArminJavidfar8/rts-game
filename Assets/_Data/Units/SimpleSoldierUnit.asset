@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8b9e1528fd4e247899fc0be9c9443b, type: 3}
-  m_Name: SimpleSoldier
+  m_Script: {fileID: 11500000, guid: 0bb2d2a74b4d1ab4d9e46ec7032e1fe4, type: 3}
+  m_Name: SimpleSoldierUnit
   m_EditorClassIdentifier: 
-  _name: SimpleSoldier
-  _maxHealth: 50
-  _weaponDamage: 8
-  _speed: 10
+  _name: Simple Soldier
+  _prefabName: SimpleUnit
+  _maxHealth: 60
+  _killingScore: 8
+  _fireRange: 15
   _rotationSpeed: 300
-  _fireRange: 10
-  _killingScore: 7
-  _fireRate: 1
   _skills:
   - {fileID: 11400000, guid: 6e0837d89c6201240bb2757788e0c620, type: 2}
+  _weaponDamage: 12
+  _speed: 12
+  _fireRate: 1
+  _autoFire: 0

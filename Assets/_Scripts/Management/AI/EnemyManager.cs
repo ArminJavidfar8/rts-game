@@ -36,12 +36,12 @@ namespace Managements.AI
 
         private IEnumerator GenerateEnemies()
         {
-            IEnumerable<BaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
+            IEnumerable<IBaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
             int spawnRange = 40;
             while (true)
             {
-                BaseUnit enemyUnit = _unitService.SpawUnit(units.GetRandomItem<BaseUnitData>(), Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
-                if (enemyUnit is SimpleSoldier)
+                BaseUnit enemyUnit = _unitService.SpawUnit(units.GetRandomItem<IBaseUnitData>(), Vector3Extension.GetRandomPositionOnGround(spawnRange), Constants.Tags.ENEMY);
+                if (enemyUnit is SimpleUnit)
                 {
                     BaseUnitAI unitAI = enemyUnit.gameObject.AddComponent<SimpleSoldierAI>();
                     unitAI.Initialize(enemyUnit);

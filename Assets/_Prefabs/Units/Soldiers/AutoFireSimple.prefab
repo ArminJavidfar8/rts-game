@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 1112781985781923324}
   - component: {fileID: 9180368121979660911}
   m_Layer: 7
-  m_Name: AutoFireSoldier
+  m_Name: AutoFireSimple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

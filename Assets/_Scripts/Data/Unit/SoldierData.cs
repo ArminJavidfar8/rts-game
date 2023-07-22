@@ -4,9 +4,5 @@ using UnityEngine;
 
 namespace Data.Unit
 {
-    [CreateAssetMenu(fileName = "Soldier", menuName ="rts-game/Soldier")]
-    public class SoldierData : BaseUnitData
-    {
-        
-    }
+    
 }

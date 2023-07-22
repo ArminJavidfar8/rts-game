@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: UnitsCollection
   m_EditorClassIdentifier: 
   _units:
-  - {fileID: 11400000, guid: 3f6433bae413b5b40906579af02b769b, type: 2}
-  - {fileID: 11400000, guid: 734f0f6f49f4d6c47b6e8034c2925b97, type: 2}
-  - {fileID: 11400000, guid: 9ae163d486e26a942a1f93107602b202, type: 2}
-  - {fileID: 11400000, guid: c82efe3a5df6f3044990d399e00a12e8, type: 2}
-  - {fileID: 11400000, guid: 5b79621a93a224642a81e166b19e396a, type: 2}
+  - {fileID: 11400000, guid: a0b31327d2a63064b9d167638f1a017f, type: 2}
+  - {fileID: 11400000, guid: 6cf5991be69edb94b9f3fd66d59355f3, type: 2}
+  - {fileID: 11400000, guid: 8cb6c8a7165c4cf408d3968cd8ef6a44, type: 2}
+  - {fileID: 11400000, guid: 9b4e0243696fffb4eafbbac0725607ed, type: 2}
+  - {fileID: 11400000, guid: 106b89bf77951714f8c9bb4c93653cf6, type: 2}

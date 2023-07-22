@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8b9e1528fd4e247899fc0be9c9443b, type: 3}
-  m_Name: StaticWeapon
+  m_Script: {fileID: 11500000, guid: 9bf5584f88ae9cd40a48caec360edf2e, type: 3}
+  m_Name: StaticNoWeaponUnit
   m_EditorClassIdentifier: 
-  _name: StaticWeapon
+  _name: Static No Weapon
+  _prefabName: StaticNoWeapon
   _maxHealth: 100
-  _weaponDamage: 9
-  _speed: 10
+  _killingScore: 60
+  _fireRange: 20
   _rotationSpeed: 300
-  _fireRange: 40
-  _killingScore: 15
-  _fireRate: 0
   _skills:
   - {fileID: 11400000, guid: 968a9962aaf56454b853d0ff2d4d728c, type: 2}

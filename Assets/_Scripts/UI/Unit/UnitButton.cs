@@ -15,10 +15,10 @@ namespace UI.Unit
         [SerializeField] private Button _selectButton;
         [SerializeField] private TMP_Text _unitNameLabel;
 
-        private BaseUnitData _unitData;
+        private IBaseUnitData _unitData;
         private IEventService _eventService;
 
-        public void Initialize(BaseUnitData unitData)
+        public void Initialize(IBaseUnitData unitData)
         {
             SetDependencies();
             _unitData = unitData;

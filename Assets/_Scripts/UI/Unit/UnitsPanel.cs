@@ -27,8 +27,8 @@ namespace UI.Unit
 
         private void SetUnitsList()
         {
-            IEnumerable<BaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
-            foreach (BaseUnitData unit in units)
+            IEnumerable<IBaseUnitData> units = _resourceService.GetResource<UnitsCollection>(Constants.Paths.UNITS_COLLECTION).Units;
+            foreach (IBaseUnitData unit in units)
             {
                 UnitButton unitButton = Instantiate(_unitButtonPrefab, transform);
                 unitButton.Initialize(unit);

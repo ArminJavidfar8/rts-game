@@ -48,9 +48,9 @@ namespace Services.Core.Unit
             _eventService = EventService.Instance;
         }
 
-        public BaseUnit SpawUnit(BaseUnitData unit, Vector3 position, string tag)
+        public BaseUnit SpawUnit(IBaseUnitData unit, Vector3 position, string tag)
         {
-            GameObject spawnedUnit = _poolService.GetGameObject(unit.Name);
+            GameObject spawnedUnit = _poolService.GetGameObject(unit.PrefabName);
             spawnedUnit.tag = tag;
             spawnedUnit.transform.position = position;
             BaseUnit spawnedBaseUnit = spawnedUnit.GetComponent<BaseUnit>();

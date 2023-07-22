@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class StaticWeapon : BaseUnit
+    public class StaticNoWeapon : BaseUnit
     {
         public override void SetTargetByUser(BaseUnit target)
         {

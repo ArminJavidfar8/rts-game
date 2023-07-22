@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class AutoFireSoldier : AutoFireStaticWeapon, IMoveable
+    public class AutoFireSimple : AutoFireStatic, IMoveable
     {
 
     }

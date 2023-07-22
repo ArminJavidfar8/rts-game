@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6584359314678523805}
   - component: {fileID: 3131702214807285774}
   m_Layer: 7
-  m_Name: SimpleSoldier
+  m_Name: SimpleUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

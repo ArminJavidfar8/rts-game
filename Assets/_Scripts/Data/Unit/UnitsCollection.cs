@@ -1,3 +1,4 @@
+using Services.Abstraction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,6 @@ namespace Data.Unit
     {
         [SerializeField] private BaseUnitData[] _units;
 
-        public IEnumerable<BaseUnitData> Units => _units;
+        public IEnumerable<IBaseUnitData> Units => _units;
     }
 }

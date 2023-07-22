@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8b9e1528fd4e247899fc0be9c9443b, type: 3}
-  m_Name: AutoFireSoldier
+  m_Script: {fileID: 11500000, guid: 0bb2d2a74b4d1ab4d9e46ec7032e1fe4, type: 3}
+  m_Name: AutoFireSimpleUnit
   m_EditorClassIdentifier: 
-  _name: AutoFireSoldier
+  _name: Auto Fire Soldier
+  _prefabName: AutoFireSimple
   _maxHealth: 50
-  _weaponDamage: 7
-  _speed: 10
-  _rotationSpeed: 300
-  _fireRange: 30
   _killingScore: 15
-  _fireRate: 1
+  _fireRange: 30
+  _rotationSpeed: 300
   _skills:
   - {fileID: 11400000, guid: 5005c8edd0680814f9b925d7c54c0e1b, type: 2}
+  _weaponDamage: 10
+  _speed: 10
+  _fireRate: 1
+  _autoFire: 1
