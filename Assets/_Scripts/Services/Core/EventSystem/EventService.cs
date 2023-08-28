@@ -8,19 +8,7 @@ namespace Services.Core.EventSystem
     {
         private readonly Dictionary<int, Delegate> _events;
 
-        private static EventService _eventSystem;
-        public static EventService Instance
-        {
-            get 
-            {
-                if (_eventSystem == null)
-                {
-                    _eventSystem = new EventService();
-                }
-                return _eventSystem;
-            }
-        }
-        private EventService()
+        public EventService()
         {
             _events = new Dictionary<int, Delegate>();
         }

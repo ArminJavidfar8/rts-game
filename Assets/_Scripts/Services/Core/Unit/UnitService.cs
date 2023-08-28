@@ -1,51 +1,26 @@
-using Common;
-using Data.Unit;
 using Extensions;
 using Managements.Unit;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Abstraction.PoolSystem;
-using Services.Core.EventSystem;
-using Services.Core.PoolSystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Services.Core.Unit
 {
-    public class UnitService : IUnitService, IServiceUser
+    public class UnitService : IUnitService
     {
         private List<BaseUnit> _activeUnits;
         private IPoolService _poolService;
         private IEventService _eventService;
 
-        #region Singleton
-        private static UnitService _instance;
-        public static UnitService Instance
+        public UnitService(IPoolService poolService, IEventService eventService)
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new UnitService();
-                }
-                return _instance;
-            }
-        }
-        #endregion
+            _eventService = eventService;
+            _poolService = poolService;
 
-        private UnitService()
-        {
-            SetDependencies();
             _activeUnits = new List<BaseUnit>();
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitDied, UnitDied);
-        }
-
-        public void SetDependencies()
-        {
-            _poolService = PoolService.Instance;
-            _eventService = EventService.Instance;
         }
 
         public BaseUnit SpawUnit(IBaseUnitData unit, Vector3 position, string tag)

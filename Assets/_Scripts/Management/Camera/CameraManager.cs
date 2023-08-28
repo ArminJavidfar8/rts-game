@@ -1,26 +1,26 @@
-using DG.Tweening;
 using Extensions;
-using Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.Cammera
 {
-    public class CameraManager : MonoBehaviour, IServiceUser
+    public class CameraManager : MonoBehaviour
     {
         [SerializeField] private float _panSpeed;
         [SerializeField] private float _zoomSpeed;
         private Vector2 _panValue;
-        private IEventService _eventSystem;
-        private void Start()
+        private IEventService _eventService;
+
+        private void Awake()
         {
             SetDependencies();
-            _eventSystem.RegisterEvent<Vector2>(EventTypes.OnMousePanned, MousePanned);
-            _eventSystem.RegisterEvent<int>(EventTypes.OnMouseScrolled, MouseScrolled);
+        }
+
+        private void Start()
+        {
+            _eventService.RegisterEvent<Vector2>(EventTypes.OnMousePanned, MousePanned);
+            _eventService.RegisterEvent<int>(EventTypes.OnMouseScrolled, MouseScrolled);
         }
 
         private void Update()
@@ -30,7 +30,7 @@ namespace Managements.Cammera
 
         public void SetDependencies()
         {
-            _eventSystem = EventService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void SetPosition()

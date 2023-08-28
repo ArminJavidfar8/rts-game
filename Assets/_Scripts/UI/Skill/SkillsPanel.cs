@@ -1,18 +1,15 @@
 using Data.Skill;
-using Data.Unit;
 using Extensions;
+using Managements;
 using Managements.Unit;
-using Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Skill
 {
-    public class SkillsPanel : MonoBehaviour, IServiceUser
+    public class SkillsPanel : MonoBehaviour
     {
         [SerializeField] private SkillButton _skillButtonPrefab;
 
@@ -20,9 +17,13 @@ namespace UI.Skill
         private List<SkillButton> _createdButtons;
         private IEventService _eventService;
 
-        private void Start()
+        private void Awake()
         {
             SetDependencies();
+        }
+
+        private void Start()
+        {
             _createdButtons = new List<SkillButton>();
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitSelected, PlayerUnitSelected);
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitDeselected, PlayerUnitDeselected);
@@ -31,7 +32,7 @@ namespace UI.Skill
 
         public void SetDependencies()
         {
-            _eventService = EventService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void PlayerUnitSelected(BaseUnit playerUnit)

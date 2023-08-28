@@ -1,18 +1,22 @@
 using Extensions;
-using Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Managements.UserInteraction
 {
-    public class ZoomHandler : MonoBehaviour, IServiceUser
+    public class ZoomHandler : MonoBehaviour
     {
         [SerializeField] private InputAction _scrollAction;
         private IEventService _eventSystem;
         private int _threshold;
         private int _currentZoom;
+
+        private void Awake()
+        {
+            SetDependencies();
+        }
 
         private void Start()
         {
@@ -39,7 +43,7 @@ namespace Managements.UserInteraction
 
         public void SetDependencies()
         {
-            _eventSystem = EventService.Instance;
+            _eventSystem = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void CheckMouseToZoom()

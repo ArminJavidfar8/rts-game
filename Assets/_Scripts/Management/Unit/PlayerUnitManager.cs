@@ -1,19 +1,14 @@
 using Common;
 using Data.Skill;
-using Data.Unit;
 using Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using Services.Core.Unit;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.Unit
 {
-    public class PlayerUnitManager : MonoBehaviour, IServiceUser
+    public class PlayerUnitManager
     {
         private IBaseUnitData _selectedUnitData;
         private BaseUnit _selectedPlayerUnit;
@@ -21,9 +16,15 @@ namespace Managements.Unit
         private IEventService _eventService;
         private IUnitService _unitService;
 
-        private void Start()
+        public PlayerUnitManager(IEventService eventService, IUnitService unitService)
         {
-            SetDependencies();
+            _eventService = eventService;
+            _unitService = unitService;
+
+            RegisterEvents();
+        }
+        private void RegisterEvents()
+        {
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnPlayerUnitLeftClicked, PlayerUnitLeftClicked);
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnEnemyUnitRightClicked, EnemyUnitRightClicked);
             _eventService.RegisterEvent<Vector3>(EventTypes.OnGroundLeftClicked, GroundLeftClicked);
@@ -31,12 +32,6 @@ namespace Managements.Unit
             _eventService.RegisterEvent<IBaseUnitData>(EventTypes.OnUnitButtonClicked, UnitButtonSelected);
             _eventService.RegisterEvent<BaseSkill>(EventTypes.OnSkillButtonClicked, SkillButtonClicked);
             _eventService.RegisterEvent<BaseUnit>(EventTypes.OnUnitDied, UnitDied);
-        }
-
-        public void SetDependencies()
-        {
-            _eventService = EventService.Instance;
-            _unitService = UnitService.Instance;
         }
 
         private void PlayerUnitLeftClicked(BaseUnit clickedUnit)

@@ -12,21 +12,7 @@ namespace Services.Core.PoolSystem
         private Dictionary<string, GameObject> _prefabs;
         private List<GameObject> _poolList;
 
-        private static PoolService instance;
-
-        public static PoolService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new PoolService();
-                }
-                return instance;
-            }
-        }
-
-        private PoolService()
+        public PoolService()
         {
             _prefabs = new Dictionary<string, GameObject>();
             _poolList = new List<GameObject>();
@@ -49,7 +35,7 @@ namespace Services.Core.PoolSystem
         {
             foreach (GameObject gameObject in _poolList)
             {
-                if (gameObject.name.StartsWith(name) && gameObject.activeSelf == false)
+                if (gameObject != null && gameObject.name.StartsWith(name) && gameObject.activeSelf == false)
                 {
                     gameObject.SetActive(true);
                     gameObject.GetComponent<IPoolable>().OnGetFromPool();

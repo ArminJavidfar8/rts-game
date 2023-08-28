@@ -1,22 +1,19 @@
 using Common;
 using Data.Skill;
-using Data.Unit;
 using DG.Tweening;
 using Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
 using Services.Abstraction.PoolSystem;
-using Services.Core.EventSystem;
-using Services.Core.Unit;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UI.Unit;
 using UnityEngine;
 
 namespace Managements.Unit
 {
-    public abstract class BaseUnit : MonoBehaviour, IPoolable, IDamageable, IShooter, ITargetFinder, IServiceUser
+    public abstract class BaseUnit : MonoBehaviour, IPoolable, IDamageable, IShooter, ITargetFinder
     {
         [SerializeField] private GameObject _selectedIndicator;
         [SerializeField] private UnitUI _unitUI;
@@ -50,17 +47,16 @@ namespace Managements.Unit
         public bool IsDead => Health <= 0;
         public IEnumerable<BaseSkill> Skills => _unitData.Skills;
 
-        
-        public void Initialize() 
+        public void Initialize()
         {
-            _unitUI.Initialize(this);
             SetDependencies();
+            _unitUI.Initialize(this);
         }
 
         public void SetDependencies()
         {
-            _eventService = EventService.Instance;
-            _unitService = UnitService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
+            _unitService = ServiceHolder.ServiceProvider.GetService<IUnitService>();
         }
 
         public virtual void SetData(IBaseUnitData unitData)

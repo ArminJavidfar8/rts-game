@@ -1,18 +1,16 @@
 using Common;
 using Extensions;
 using Managements.Unit;
-using Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Managements.UserInteraction
 {
-    public class ClickHandler : MonoBehaviour, IServiceUser
+    public class ClickHandler : MonoBehaviour
     {
         [SerializeField] private InputAction _rightClickAction;
         [SerializeField] private InputAction _leftClickAction;
@@ -21,13 +19,16 @@ namespace Managements.UserInteraction
         private int _layerMask;
         private IEventService _eventSystem;
 
+        private void Awake()
+        {
+            SetDependencies();
+        }
+
         private void Start()
         {
             _mainCamera = Camera.main;
             _rayDistance = 200;
             _layerMask = LayerMask.GetMask(Constants.LayerNames.GROUND, Constants.LayerNames.UNIT);
-
-            SetDependencies();
         }
         private void OnEnable()
         {
@@ -46,7 +47,7 @@ namespace Managements.UserInteraction
 
         public void SetDependencies()
         {
-            _eventSystem = EventService.Instance;
+            _eventSystem = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void RightClickActionPerformed(InputAction.CallbackContext context)

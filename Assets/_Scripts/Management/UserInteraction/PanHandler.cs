@@ -1,16 +1,12 @@
 using Extensions;
-using Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Managements.UserInteraction
 {
-    public class PanHandler : MonoBehaviour, IServiceUser
+    public class PanHandler : MonoBehaviour
     {
         private int _screenWidth;
         private int _screenHeight;
@@ -24,9 +20,13 @@ namespace Managements.UserInteraction
 
         private IEventService _eventSystem;
 
-        private void Start()
+        private void Awake()
         {
             SetDependencies();
+        }
+
+        private void Start()
+        {
             SetThresholds();
         }
 
@@ -49,7 +49,7 @@ namespace Managements.UserInteraction
 
         public void SetDependencies()
         {
-            _eventSystem = EventService.Instance;
+            _eventSystem = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void CheckMouseToPan()

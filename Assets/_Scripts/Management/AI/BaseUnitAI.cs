@@ -1,14 +1,12 @@
 using Common;
 using Managements.Unit;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
-using Services.Core.Unit;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.AI
 {
-    public abstract class BaseUnitAI : MonoBehaviour, IServiceUser
+    public abstract class BaseUnitAI : MonoBehaviour
     {
         private IUnitService _unitService;
         protected BaseUnit _connectedUnit;
@@ -21,7 +19,7 @@ namespace Managements.AI
 
         public void SetDependencies()
         {
-            _unitService = UnitService.Instance;
+            _unitService = ServiceHolder.ServiceProvider.GetService<IUnitService>();
         }
 
         protected BaseUnit FindPlayerForAI()

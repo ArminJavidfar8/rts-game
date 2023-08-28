@@ -1,29 +1,29 @@
 using Extensions;
-using Services.Abstraction;
+using Managements;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace UI.Score
 {
-    public class ScorePanel : MonoBehaviour, IServiceUser
+    public class ScorePanel : MonoBehaviour
     {
         [SerializeField] private TMP_Text _scoreLabel;
 
         private IEventService _eventService;
-        private void Start()
+        private void Awake()
         {
             SetDependencies();
+        }
+        private void Start()
+        {
             _eventService.RegisterEvent<int>(EventTypes.OnScoreUpdated, ScoreUpdated);
         }
 
         public void SetDependencies()
         {
-            _eventService = EventService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void ScoreUpdated(int score)

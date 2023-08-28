@@ -1,17 +1,15 @@
 using Extensions;
+using Managements;
 using Managements.Unit;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Unit
 {
-    public class UnitUI : MonoBehaviour, IServiceUser
+    public class UnitUI : MonoBehaviour
     {
         [SerializeField] private Image _healthbarFill;
 
@@ -24,15 +22,15 @@ namespace UI.Unit
         {
             transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward, _mainCamera.transform.rotation * Vector3.up);
         }
-
-        public void SetDependencies()
+        private void SetDependencies()
         {
-            _eventService = EventService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         public void Initialize(BaseUnit unit)
         {
             SetDependencies();
+
             _mainCamera = Camera.main;
             _unit = unit;
             _damageable = unit;

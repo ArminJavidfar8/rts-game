@@ -1,28 +1,32 @@
 using Common;
 using Data.Unit;
+using Managements;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
-using Services.Core.ResourceSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Unit
 {
-    public class UnitsPanel : MonoBehaviour, IServiceUser
+    public class UnitsPanel : MonoBehaviour
     {
         [SerializeField] private UnitButton _unitButtonPrefab;
 
         private IResourceService _resourceService;
 
-        void Start()
+        private void Awake()
         {
             SetDependencies();
+        }
 
+        void Start()
+        {
             SetUnitsList();
         }
 
         public void SetDependencies()
         {
-            _resourceService = ResourceService.Instance;
+            _resourceService = ServiceHolder.ServiceProvider.GetService<IResourceService>();
         }
 
         private void SetUnitsList()

@@ -9,8 +9,12 @@
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Microsoft.Extensions.DependencyInjection.dll",
+        "DOTween.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],

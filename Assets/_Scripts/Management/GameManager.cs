@@ -1,15 +1,13 @@
-using Services;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Managements
-{
-    public class ServiceManager : MonoBehaviour
+namespace Managements {
+    public class GameManager : MonoBehaviour
     {
         void Awake()
         {
-            _ = new ServiceInitializer();
+            _ = ServiceHolder.ServiceProvider;
         }
     }
 }

@@ -1,34 +1,35 @@
 using Data.Skill;
 using Extensions;
-using Services.Abstraction;
+using Managements;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction.EventSystem;
-using Services.Core.EventSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Skill
 {
-    public class SkillButton : MonoBehaviour, IServiceUser
+    public class SkillButton : MonoBehaviour
     {
         [SerializeField] private Button _selectButton;
         [SerializeField] private TMP_Text _skillNameLabel;
 
         private BaseSkill _baseSkill;
         private IEventService _eventService;
-        public void Initialize(BaseSkill baseSkill)
+
+        private void Awake()
         {
             SetDependencies();
+        }
+        public void Initialize(BaseSkill baseSkill)
+        {
             _baseSkill = baseSkill;
             SetUI();
         }
 
         public void SetDependencies()
         {
-            _eventService = EventService.Instance;
+            _eventService = ServiceHolder.ServiceProvider.GetService<IEventService>();
         }
 
         private void SetUI()
