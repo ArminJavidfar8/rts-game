@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Managements.AI
 {
-    public class EnemyManager
+    public class EnemyManager : MonoBehaviour
     {
         private WaitForSeconds _spawnDelay;
 
@@ -18,14 +18,14 @@ namespace Managements.AI
         private IResourceService _resourceService;
         private IUnitService _unitService;
 
-        public EnemyManager(IResourceService resourceService, IUnitService unitService)
+        private void Start()
         {
-            _resourceService = resourceService;
-            _unitService = unitService;
+            _resourceService = ServiceHolder.ServiceProvider.GetService<IResourceService>();
+            _unitService = ServiceHolder.ServiceProvider.GetService<IUnitService>();
 
             _enemies = new List<BaseUnit>();
             _spawnDelay = new WaitForSeconds(5);
-            CoroutineHolder.Instance.StartCoroutine(GenerateEnemies());
+            StartCoroutine(GenerateEnemies());
         }
 
         private IEnumerator GenerateEnemies()

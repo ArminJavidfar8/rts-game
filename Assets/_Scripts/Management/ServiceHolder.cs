@@ -29,7 +29,6 @@ namespace Managements
                     serviceCollection.AddSingleton<IResourceService, ResourceService>();
                     serviceCollection.AddSingleton<IPoolService, PoolService>();
                     serviceCollection.AddSingleton<IEventService, EventService>();
-                    serviceCollection.AddSingleton<EnemyManager>();
                     serviceCollection.AddSingleton<PlayerUnitManager>();
                     _serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -38,7 +37,6 @@ namespace Managements
                     _ = _serviceProvider.GetService<ResourceService>();
                     _ = _serviceProvider.GetService<PoolService>();
                     _ = _serviceProvider.GetService<EventService>();
-                    _ = _serviceProvider.GetService<EnemyManager>();
                     _ = _serviceProvider.GetService<PlayerUnitManager>();
                 }
                 return _serviceProvider;
