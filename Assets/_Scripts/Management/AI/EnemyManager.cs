@@ -4,28 +4,31 @@ using Extensions;
 using Managements.Unit;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Abstraction;
+using Services.Abstraction.CoroutineSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Managements.AI
 {
-    public class EnemyManager : MonoBehaviour
+    public class EnemyManager
     {
         private WaitForSeconds _spawnDelay;
 
         private List<BaseUnit> _enemies;
         private IResourceService _resourceService;
         private IUnitService _unitService;
+        private ICoroutineService _coroutineService;
 
-        private void Start()
+        public EnemyManager(IResourceService resourceService, IUnitService unitService, ICoroutineService coroutineService)
         {
-            _resourceService = ServiceHolder.ServiceProvider.GetService<IResourceService>();
-            _unitService = ServiceHolder.ServiceProvider.GetService<IUnitService>();
+            _resourceService = resourceService;
+            _unitService = unitService;
+            _coroutineService = coroutineService;
 
             _enemies = new List<BaseUnit>();
             _spawnDelay = new WaitForSeconds(5);
-            StartCoroutine(GenerateEnemies());
+            _coroutineService.StartCoroutine(GenerateEnemies());
         }
 
         private IEnumerator GenerateEnemies()
